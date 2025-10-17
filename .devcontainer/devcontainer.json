@@ -1,3 +1,33 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/rocker-org/devcontainer-templates/tree/main/src/r-ver
 {
-    "image": "ghcr.io/rocker-org/devcontainer/r-ver:4"
+	"name": "R (rocker)",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "ghcr.io/rocker-org/devcontainer/r-ver:4", //or tidyverse:4
+	"features": {
+		"ghcr.io/rocker-org/devcontainer-features/renv-cache:0": {}
+	},
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "R -q -e 'renv::install(c(\"bioc::limma\"))'",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+
+	"remoteEnv": {
+        "RENV_PATHS_CACHE": "/renv/cache"
+        },
+    // Mount renv cache from default location on host
+    "mounts": [
+        "source=${localEnv:HOME}/.cache/R/renv/cache/,target=/renv/cache,type=bind"
+    ]
 }
